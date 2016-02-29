@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>预售详情页面</title>
+	<!-- 屏幕适配 -->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- webapp -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 启用webkit内核模式浏览器 -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 页面关键字 -->
+    <meta name="keywords" content="" />
+    <!-- 页面描述 -->
+    <meta name="description" content="" />
+
+    <link rel="stylesheet" type="text/css" href="../css/H-ui.min.min.css"> <!-- common -->
+    <link rel="stylesheet" type="text/css" href="../css/public.min.css">  <!-- common -->
+    <link rel="stylesheet" type="text/css" href="../css/yushou.min.css">  <!-- personal -->
+	<link rel="stylesheet" href="../js/scrollbar/jquery.mCustomScrollbar.css">
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../bower/html5.js"></script>
+    <![endif]-->
+</head>
+<body ng-app="mod" ng-controller="ctrl_1">
+	
+	<div class="detailMain con">
+		<p class="p-colorH link"><<a href="#" class="ml-10 mr-20 p-colorH">场景</a><<a href="#" class="ml-10 mr-20 p-colorH">特殊场景</a></p>
+
+		<div class="dMain-con cl">
+			<div class="dMain-con-pic l mt-20 ng-scope" >
+				<div class="pic-box p-img" >
+
+					<!-- rotate -->
+					 <div class="AreaC">
+					 	<div id="showPic">
+					 		<img src="{{showpic}}">
+					 	</div>
+					 	<ul class="subMenu">
+					 		<li class="reset" ng-click='resets()'> <i class="ico"></i>
+					 			<span class="tip">重来</span>
+					 		</li>
+					 		<li class="rotate" ng-click="rotate(1)"> <i class="ico"></i>
+					 			<span class="tip">旋转</span>
+					 		</li>
+					 		<li class="share">
+					 			<i class="ico"></i>
+					 			<span class="tip">分享</span>
+					 			<div class="shareList">
+					 				<a class="wx" data-cmd="wx" title="微信"></a>
+					 				<a class="tsina" data-cmd="tsina" title="新郎微博"></a>
+					 				<a class="tqq" data-cmd="tqq" title="腾讯微博"></a>
+					 				<a class="qzone" data-cmd="qzone" title="QQ空间"></a>
+					 			</div>
+					 		</li>
+					 		<li class="fullScreen" ng-click="fullScreen()">
+					 			<i class="ico"></i>
+					 			<span class="tip">全屏</span>
+					 		</li>
+					 	</ul>
+					 	<button ng-click='rotate(0)' id="rotate-left" ng-hide=true>左转</button>
+					 	<button ng-click="rotate(1)" id="rotate-right" ng-hide=true>右转</button>
+					 </div>
+				<!-- //rotate -->
+
+				</div>
+
+
+			</div>
+			<div class="dMain-con-info r ml-40">
+				<p class="f-20 gName">Calvin Klein Shoes 漆皮高跟鞋</p>
+				<p class="f-18 gSummary">Leevyshen</p>
+				<p class="mt-10"><span class="f-14 mr-20 price gPrice">￥790.00</span><span class="f-12 p-colorR">5双以上成交将有现金红包哦！</span></p>
+                <p class="mt-10">
+                    <span class="f-14 mr-20 p-colorH ">预售倒计时</span>
+                    <span class="mr-20 gEndtime">
+                        <span id="day_show">0天</span> <strong id="hour_show">0时</strong> <strong id="minute_show">0分</strong>
+                        <strong id="second_show">0秒</strong>
+                    </span>
+                    <span class="f-14 p-colorH mr-20">发货时间</span>
+                    <span class="gSendOutTime">2016-01-29</span>
+                </p>
+				<div class="load mt-30">
+					<div class="load-bar">
+						<span class="load-con" style="width:50%"></span>
+					</div>
+				<p class="text-r mt-10">已满<span class="p-colorR">25</span>人订购</p>
+
+				</div>
+				<ul class="cl p-colorH mt-50 lh-24 goodsData">
+					<li class="l col-3-1 ">跟高：<span class="HeelHight">高跟(5-8cm)</span></li>
+					<li class="l col-3-1">配饰：<span class="gAcc">无</span> </li>
+					<li class="l col-3-1"> 内里材质：<span class="gInMaterial">人造革/PU</span></li>
+					<li class="l col-3-1">鞋面材质：<span class="gMaterial">头层牛皮</span></li>
+					<li class="l col-3-1">鞋底材质：<span class="gsoleMaterial">牛筋底</span></li>
+				</ul>
+				<ul class="info-options p-colorH mt-30">
+					<li class="color"><p class="mr-50  p-dlb">颜色：</p></li>
+					<li class="size mt-30">
+						<span>尺码：</span>
+						<select class="btn">
+							<option value="">36</option>
+							<option value="">37</option>
+							<option value="">38</option>
+							<option value="">39</option>
+						</select>
+					</li>
+					<li class="number mt-30">
+						<span>数量：</span>
+						<span class="p-dlb">
+							<input type="button" value="-"  id="sub" class="btn">
+							<input type="text" value="1" class="btn " id="number">
+							<input type="button" value="+" id="add" class="btn">
+						</span>
+				  	</li>
+				  </ul>
+				  <p class="mt-30">
+				  	<input type="button" value="立即购买" class="btn mr-30 goods-btn">
+				  	<input type="button" value="加入购物车" class="btn goods-btn addgood" onClick="alertBoxIn()">
+				  </p>
+			</div>
+		</div>
+	</div>
+
+	<div class="addGoods text-c" id="addGoods">
+        <div class="text-r f-12 p-colorB mr-10 mt-10 alertClose" onclick="alertBoxOut()">关闭</div>
+        <h3 class="mb-10">您的商品已成功加入购物车!</h3>
+        <p class="f-12 mb-5">您的购物车中<span class="p-colorR">1</span>件商品</p>
+        <p class="f-12">您的购物车小计<span class="p-colorR">￥1200.00</span></p>
+        <p class="mt-30">
+            <input type="button" value="继续购物" class="btn mr-30 goods-btn go" onclick="alertBoxOut()">
+            <input type="button" value="去结算" class="btn goods-btn">
+        </p>
+
+    </div>
+
+    <div class="mask" id='maskBox' onclick="alertBoxOut()"></div>
+	<script type="text/javascript" src="../js/jquery.1.9.1.min.js"></script>
+	<script src="../js/angular.min.js"></script>
+	<script src="../js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script> 
+	<script src="../js/ysdetail-http.js"></script>
+    <script>
+        var diy=new Diy();
+        diy.init();
+    </script>
+    <script type="text/javascript">
+    	$(function(){
+
+			/*color btn change*/
+			function colorChange(colorCon){
+				colorCon.eq(0).addClass('colorChecked');
+				colorCon.on('click',function(){
+					$(this).addClass('colorChecked').siblings(colorCon).removeClass('colorChecked');
+				})
+			}
+
+			colorChange($('.color-btn'));
+
+			/*add or sub*/
+			function goodsCount (add,sub,num){
+				
+				add.click(function(){
+					num.val(parseInt(num.val()) + 1);
+				});
+
+				sub.click(function(){
+					if(parseInt(num.val())>1){
+						num.val(parseInt(num.val()) - 1);
+					} 
+				});
+
+			}
+			goodsCount($('#add'),$('#sub'),$('#number'));
+
+
+    	})
+
+            /*alertBox FadeIn or FadeOut*/
+            
+            function alertBoxIn(){
+                $('#maskBox').fadeIn(200);
+                $('#addGoods').fadeIn(200);
+            }
+
+            function alertBoxOut(){
+                $('#maskBox').fadeOut(200);
+                $('#addGoods').fadeOut(200);
+            }
+    </script>
+   
+
+</body>
+</html>

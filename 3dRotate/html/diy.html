@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+  <title>diy-3D在线设计</title>
+  <!-- 屏幕适配 -->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- webapp -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 启用webkit内核模式浏览器 -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 页面关键字 -->
+    <meta name="keywords" content="" />
+    <!-- 页面描述 -->
+    <meta name="description" content="" />
+
+  <link rel="stylesheet" type="text/css" href="../css/H-ui.min.css"> <!-- common -->
+  <link rel="stylesheet" type="text/css" href="../css/public.css">  <!-- common -->
+  <link rel="stylesheet" type="text/css" href="../css/diy.css">  <!-- personal -->
+  <link rel="stylesheet" href="../bower/scrollbar/jquery.mCustomScrollbar.css">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../bower/html5.js"></script>
+    <![endif]-->
+
+</head>
+
+<body ng-app="mod" ng-controller="ctrl_1">
+
+  <!-- container -->
+<div class="container">
+  <div class="AreaL fl"></div>
+  <div class="AreaR fr">
+    <div class="menuBox">
+      <ul id="menu">
+        <li class="cur">鞋面</li>
+        <li>鞋跟</li>
+        <li>配饰</li>
+        <li>尺码</li>
+      </ul>
+    </div>
+    <div id="opt" class="opt">
+      <form id="myform">
+          <div class="cat" id="vamp">
+            <h5>选择一种面料</h5>
+            <ul class="tabTit">
+              <li ng-repeat="x in vamp">
+                <div><img ng-src="{{x.Cover}}"></div>
+                <p ng-bind="x.Name"></p>
+                <input type="radio" name="vamp" value="{{x.Id}}">
+              </li>
+            </ul>
+            <h5>选择一种面料颜色</h5>
+            <div class="tabLayer">
+                <ul ng-hide="true" ng-repeat="x in vamp">
+                  <li ng-repeat="x in x.Color" ng-click="selectColor('vamp',x.SamllPic)">
+                    <div><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" style="background:{{x.ColorInfoRgb}}"></div>
+                    <p ng-bind="x.ColorInfoName"></p>
+                     <input type="radio" name="vamp_color" value="{{x.Id}}">
+                  </li>
+                </ul>
+            </div>
+          </div>
+          <div class="cat hide" id="heel">
+            <h5>选择一种面料</h5>
+            <ul class="tabTit">
+              <li ng-repeat="x in heel" ng-click="caizhi('heel',$index)">
+                <div><img ng-src="{{x.Cover}}"></div>
+                <p ng-bind="x.Name"></p>
+                 <input type="radio" name="heel" value="{{x.Id}}">
+              </li>
+            </ul>
+            <h5>选择一种面料颜色</h5>
+            <div class="tabLayer">
+                <ul ng-hide="true" ng-repeat="x in heel">
+                  <li ng-repeat="x in x.Color" ng-click="selectColor('heel',x.SamllPic)">
+                    <div><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" style="background:{{x.ColorInfoRgb}}"></div>
+                    <p ng-bind="x.ColorInfoName"></p>
+                    <input type="radio" name="heel_color" value="{{x.Id}}">
+                  </li>
+                </ul>
+            </div>
+          </div>
+          <div class="cat hide" id="adorn">
+            <div class="tabLayer">
+                <ul>
+                  <li ng-repeat="x in adorn" ng-click="selectColor('adorn',x.ShoesAccPic)">
+                    <div><img ng-src="{{x.Cover}}"></div>
+                    <p ng-bind="x.Name"></p>
+                    <input type="radio" name="adorn" value="{{x.Id}}">
+                  </li>
+                </ul>
+            </div>
+          </div>
+          <div class="cat size hide">
+            <div class="tabLayer"> 
+                <ul>
+                  <li ng-repeat='x in size' id="{{x.China}}">
+                    <span ng-bind="x.China"></span>
+                    <input type="radio" name="size" value="{{x.Id}}">
+                  </li>
+                </ul>
+            </div>
+          </div>
+      </form>
+    </div>
+    <div class="btnBox">
+      <button ng-click="complete()">完成设计</button>
+    </div>
+  </div>
+  <div class="AreaC">
+    <div id="showPic">
+    	<!--舞台展示-->
+    	<img ng-src="{{x.Path}}" title="{{x.Name}}" style="z-index:{{x.Zindex}}" ng-repeat="x in base">
+    	<div id="updataView" ng-click='updataView()' style="display:none"></div>
+    </div>
+    <ul class="subMenu">
+      <li class="reset" ng-click="resets()"> <i class="ico"></i> <span class="tip">重来</span> </li>
+      <li class="rotate" ng-click="rotate(1)"> <i class="ico"></i> <span class="tip">旋转</span> </li>
+      <li class="share"> <i class="ico"></i> <span class="tip">分享</span>
+        <div class="shareList"> <a class="wx" data-cmd="wx" title="微信"></a> <a class="tsina" data-cmd="tsina" title="新浪微博"></a> <a class="tqq" data-cmd="tqq" title="腾讯微博"></a> <a class="qzone" data-cmd="qzone" title="QQ空间"></a> </div>
+      </li>
+      <li class="fullScreen" ng-click="fullScreen()"> <i class="ico"></i> <span class="tip">全屏</span> </li>
+    </ul>
+    <button ng-click="rotate(0)" id="rotate-left" ng-hide="true">左转</button>
+    <button ng-click="rotate(1)" id="rotate-right" ng-hide="true">右转</button>
+  </div>
+</div>
+ <!-- //container -->
+
+ <!-- complete  alertBox -->
+<div class="complete completeStep1">
+  <div class="completeClose"></div>
+   <div class="completeBox cl">
+      <div class="completePic l">
+        <p class="f-24 mb-20">保存设计作品</p>
+        <div class="workPic">
+            <img src="" class="text-c" alt="商品">
+        </div>
+      </div>
+      <span class="p-dlb"></span>
+      <div class="completeInfo l">
+      <div class="info1 mb-40 mt-40">
+        <label for="workName">作品名称<span class="p-colorH">【可修改】</span></label>
+        <input type="text" name="workName" id="workName" class="p-db input-text">
+      </div>
+
+      <div class="info2">
+        <label for="workName">设计理念/灵感</label>
+        <textarea class="textarea"></textarea>
+        <span class="p-colorH">请限制在100字数以内</span>
+      </div>
+      <div class="workBtn text-c mt-40 mb-40">
+        <input type="submit" class=" completeBtn text-c" value="保存设计" id="step1Btn" ng-click="getData()">
+      </div>
+      </div>
+    </div>
+</div>
+<div class="complete completeStep2">
+  <div class="completeClose"></div>
+  <div class="completeBox cl">
+    <div class="completePic l">
+      <div class="workPic text-c">
+            <img src=""  alt="商品">
+      </div>
+      <div class="workBtn text-c">
+           <input type="submit" class="completeBtn text-c mr-30" value="重新设计" id="step2Btn">
+           <input type="submit" class="completeBtn text-c" value="保存设计" id="complete">
+      </div>
+    </div>
+    <div class="completeInfo r text-c">
+      <p class="f-30 mb-30">合计<span class="p-colorR f-26">￥<span id="workPrice"></span></span></p>
+      <p class="lh-30 f-14">亲的设计太棒了！快快邀请小伙伴们一起围观吧！</p>
+      <p class="lh-30 mb-20 f-14">成交5双以上，每位小伙伴都能得到x元现金红包哦！</p>
+      <div class="workBtn text-c  mb-40">
+        <input type="submit" class="buyBtn text-c mr-50" value="立即购买">
+        <input type="submit" class="buyBtn text-c" value="我要分享">
+      </div>
+      <ul class="text-c p-colorH completeNote mt-10">
+        <li>注:亲，点击购买后，设计的鞋子将参与预售，预售时间为5天(120小时)</li>
+        <li>预售结束后如若达到5双成交，将返还x元现金红包</li>
+        <li>预售结束后将立即安排工厂生产，生产时间约为10-15天</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+ <div class="maskBox">
+ </div>
+ <!-- //complete  alertBox -->
+
+
+<script src="../js/jquery.1.9.1.min.js"></script> 
+<script src="../js/angular.min.js"></script> 
+<script src="../js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script> 
+<script src="../js/diy.js"></script> 
+<script>
+var diy=new Diy({id:21,uid:1});//id:基础款id  uid：用户id
+diy.init();
+</script>
+<script type="text/javascript">
+  $(function(){
+
+    var winW=window.innerWidth,winH=window.innerHeight;
+    $('.complete').width(winW*.7);
+    $('.complete').height(winH*.6);
+    $('.complete').css({'margin-left':-(winW*.7/2),'margin-top':-(winH*.6/2)});
+
+
+    $(window).resize(function(){
+
+       $('.complete').width(winW*.7);
+       $('.complete').height(winH*.6);
+       $('.complete').css({'margin-left':-(winW*.7/2),'margin-top':-(winH*.6/2)});
+
+    });
+
+    $('.maskBox').css('display','none');
+    $('.completeStep1').css('display','none');
+    $('.completeStep2').css('display','none');
+
+  })
+</script>
+</body>
+</html>
